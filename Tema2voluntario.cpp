@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <cmath>
 #include <time.h>
+# include "gsl_rng.h" //Libreria para generación de números aleatorios
+
 #define N 16
+
+gsl_rng *tau;
 
 double Magnetización(int spines[N][N]){
     double suma=0.0;
@@ -90,7 +94,14 @@ int main(){
     double VEnergia, sumaE, Ecuad,Cn, correl, difE, E;
     double exponencial, p, epsilon;
     double magn=0.0;
-    srand(time(NULL));
+
+    extern gsl_rng *tau; //Puntero al estado del número aleatorio
+    int semilla=135254; //Semilla del generador de números aleatorios
+    
+    
+    tau=gsl_rng_alloc(gsl_rng_taus); //Inicializamos el puntero
+    gsl_rng_set(tau,semilla); //Inicializamos la semilla
+
     sumaE=0.0;
     E=0.0;
     h=0;
@@ -135,8 +146,8 @@ Correlac=fopen("Correlacion", "a");
 //empezamos el bucle paso montecarlo
     for (int k = 0; k < rep ; k++)
     {
-    f=rand()%N; //posicion aleatoria de la matriz
-    c=rand()%N;
+    f=gsl_rng_uniform_int(tau,N); //posicion aleatoria de la matriz
+    c=gsl_rng_uniform_int(tau,N);
     // printf("%d\t,%d\t", f,c);
     //calculamos la energia 
 
@@ -178,7 +189,7 @@ Correlac=fopen("Correlacion", "a");
         p=exponencial;
    }
    //printf("%lf\n", p);
-   epsilon=(double)rand() / RAND_MAX;
+   epsilon=gsl_rng_uniform(tau);
    //printf("%lf\n", epsilon);
 
    //si es menor lo cambiamos
@@ -237,7 +248,7 @@ fclose(Correlac);
 
 
 
-T=T+0.2;
+T=T+0.1;
     }
 
     return 0;
