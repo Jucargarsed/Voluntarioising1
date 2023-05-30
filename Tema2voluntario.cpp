@@ -111,7 +111,7 @@ int main(){
     int a=5;
     //escribir la matriz
     //diferencia de energia
-    for (int z = 0; z < 11; z++)
+    for (int z = 0; z < 21; z++)
     {
         
     
