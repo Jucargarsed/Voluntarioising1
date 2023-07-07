@@ -85,7 +85,7 @@ printf("%lf\t", Energia(spines));
 
 
 //empezamos el bucle paso montecarlo
-    for (int k = 0; k < rep ; k++)
+    for (double k = 0; k < rep ; k++)
     {
     f=gsl_rng_uniform_int(tau,N); //posicion aleatoria de la matriz
     c=gsl_rng_uniform_int(tau,N);
